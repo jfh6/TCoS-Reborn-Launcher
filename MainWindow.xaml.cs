@@ -29,6 +29,12 @@ namespace TCoS_Reborn_Launcher
             public MainWindow()
             {
                 InitializeComponent();
+            /*
+             * string gameVersion = TODO: Get game version from server
+             *
+             * Update configfile with current game version
+             * updateVersion(gameVersion);                 
+             */
             }
 
             private void Button_Click(object sender, RoutedEventArgs e)
@@ -98,6 +104,13 @@ namespace TCoS_Reborn_Launcher
                         MessageBox.Show("Client Downloaded Please wait for Install Confirmation!");
                      // Run Intall function with textbox input to update config file and extract game files
                         Launcher.InstallGame(installPath.Text.ToString());
+
+                    /*
+                         TODO: 
+                            Create function [DeleteSetup()] to Delete Setup File after install.
+                            Launcher.DeleteSetup();
+                     
+                     */
                      // Alert on Completion
                         MessageBox.Show("TCoS Installed Successfully!");
                     }
