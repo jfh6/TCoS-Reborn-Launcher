@@ -46,7 +46,7 @@ namespace TCoS_Reborn_Launcher
                 Launcher.Exit();
             }
 
-
+// --Start Copied Code from Kevin Petit's Version--
             WebClient webClient;
 
             public void DownloadFile(string urlAddress, string location)
@@ -94,14 +94,19 @@ namespace TCoS_Reborn_Launcher
                     }
                     else
                     {
+                     // Alert on download complete
                         MessageBox.Show("Client Downloaded Please wait for Install Confirmation!");
+                     // Run Intall function with textbox input to update config file and extract game files
                         Launcher.InstallGame(installPath.Text.ToString());
+                     // Alert on Completion
                         MessageBox.Show("TCoS Installed Successfully!");
                     }
                 }
             }
+// --End Copied Code--
             private void Button_Click_1(object sender, RoutedEventArgs e)
             {
+             // Download the file and save it to the static Dir.
                 DownloadFile("http://files.TCoS.org/latest.zip", "C:/Games/tcosSetup");
             }
 
@@ -117,6 +122,7 @@ namespace TCoS_Reborn_Launcher
 
             private void Button_Click_2(object sender, RoutedEventArgs e)
             {
+             // Run update function with textbox input to update config file with install location
                 Launcher.updatePath(installPath.Text.ToString());
             }
 
