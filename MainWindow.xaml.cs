@@ -71,7 +71,8 @@ namespace TCoS_Reborn_Launcher
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message + "  " + URL);
+
                     }
                 }
 
@@ -120,7 +121,7 @@ namespace TCoS_Reborn_Launcher
             private void Button_Click_1(object sender, RoutedEventArgs e)
             {
              // Download the file and save it to the static Dir.
-                DownloadFile("http://files.TCoS.org/latest.zip", "C:/Games/tcosSetup");
+                DownloadFile("http://files.Spellborn.org/latest.zip", "C:/Games/tcosSetup");
             }
 
             private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
