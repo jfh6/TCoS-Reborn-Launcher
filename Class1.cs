@@ -18,12 +18,14 @@ using System.ComponentModel;
 using System.IO.Compression;
 using System.Configuration;
 using System.Collections.Specialized;
+using Microsoft.Win32;
+using Spellborn_Reborn_Luancher;
 
 namespace TCoS_Reborn_Launcher
 {
     class Launcher
     {
-        
+
         public static void PlayGame()
         {
             //Function to Launch sb_client.exe
@@ -40,7 +42,7 @@ namespace TCoS_Reborn_Launcher
             }
             else
             {
-            // display error if install path can't be found.
+                // display error if install path can't be found.
                 MessageBox.Show("Error: Could not find Install location! Please Update your client to the latest Version." +
                     location + "/TheChroniclesofSpellborn" + version + "/bin/client/sb_client.exe");
                 return;
@@ -61,33 +63,79 @@ namespace TCoS_Reborn_Launcher
             //Push Intall location to Config file
             updatePath(installPath);
             //Unzip download to Install location
-            ZipFile.ExtractToDirectory("C:/Games/tcosSetup", installPath);
+            ZipFile.ExtractToDirectory("C:/Windows/TEMP/tcosSetup", installPath);
         }
         public static void updatePath(string installPath)
         {
-            //Open Config File
-            Configuration config =
-            ConfigurationManager.OpenExeConfiguration
-                        (ConfigurationUserLevel.None);
-            //Write new value for installPath key
-            config.AppSettings.Settings["installPath"].Value = installPath;
-            //Save Config File
-            config.Save(ConfigurationSaveMode.Modified);
-            //Refresh Config File
-            ConfigurationManager.RefreshSection("appSettings");
+            try
+            {
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                {
+                    if (key != null)
+                    {
+                        //update value for install location
+                        key.SetValue("installPath", installPath);
+                    }
+                    else
+                    {
+                        //Create the subkey if it doesn't exist
+                        Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher");
+                        key.SetValue("installPath", installPath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         public static void updateVersion(string version)
         {
-            //Open Config File
-            Configuration config =
-            ConfigurationManager.OpenExeConfiguration
-                        (ConfigurationUserLevel.None);
-            //Write new value for gameVersion key
-            config.AppSettings.Settings["gameVersion"].Value = version;
-            //Save Config File
-            config.Save(ConfigurationSaveMode.Modified);
-            //Refresh Config File
-            ConfigurationManager.RefreshSection("appSettings");
+            try
+            {
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                {
+                    if (key != null)
+                    {
+                        //update value for game version
+                        key.SetValue("version", version);
+                    }
+                    else
+                    {
+                        //Create the subkey if it doesn't exist
+                        Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher");
+                        key.SetValue("version", version);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        public static string GetVersion()
+        {
+            GameInfo g;
+            g = new GameInfo();
+            g.LoadInfo();
+            string version = g.version;
+            return version;
+        }
+        public static string GetFile()
+        {
+            GameInfo g;
+            g = new GameInfo();
+            g.LoadInfo();
+            string File = g.file;
+            return File;
+        }
+        public static string GetChecksum()
+        {
+            GameInfo g;
+            g = new GameInfo();
+            g.LoadInfo();
+            string Checksum = g.checksum;
+            return Checksum;
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿
 namespace TCoS_Reborn_Launcher
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -23,18 +20,53 @@ namespace TCoS_Reborn_Launcher
     using System.ComponentModel;
     using System.Configuration;
     using System.Collections.Specialized;
+    using Microsoft.Win32;
 
         public partial class MainWindow : Window
         {
             public MainWindow()
+            {           
+            try
             {
-                InitializeComponent();
-            /*
-             * string gameVersion = TODO: Get game version from server
-             *
-             * Update configfile with current game version
-             * updateVersion(gameVersion);                 
-             */
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                {
+                    if (key != null)
+                    {
+                        Object o = key.GetValue("Version");
+                        if (o != null)
+                        {
+                            Version version = new Version(o as String);  //"as" because it's REG_SZ...otherwise ToString() might be safe(r)
+
+                            string Sversion = Launcher.GetVersion();
+
+                            if (version.ToString() != Sversion)
+                            {
+                                InitializeComponent();
+                                MessageBox.Show("Version Mismatch ~ Client Version: " + version + " Server Version: " + Sversion);
+                            }
+                            else
+                            {
+                                InitializeComponent();
+                            }
+                            
+
+                        }
+                    }
+                    else
+                    {
+                        Launcher.updateVersion("1.0.0.0");
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //react appropriately
+                MessageBox.Show(ex.ToString());
+            }          
+
+                               
+             
             }
 
             private void Button_Click(object sender, RoutedEventArgs e)
@@ -104,14 +136,7 @@ namespace TCoS_Reborn_Launcher
                      // Alert on download complete
                         MessageBox.Show("Client Downloaded Please wait for Install Confirmation!");
                      // Run Intall function with textbox input to update config file and extract game files
-                        Launcher.InstallGame(installPath.Text.ToString());
-
-                    /*
-                         TODO: 
-                            Create function [DeleteSetup()] to Delete Setup File after install.
-                            Launcher.DeleteSetup();
-                     
-                     */
+                        Launcher.InstallGame(installPath.Text.ToString());               
                      // Alert on Completion
                         MessageBox.Show("TCoS Installed Successfully!");
                     }
@@ -121,7 +146,7 @@ namespace TCoS_Reborn_Launcher
             private void Button_Click_1(object sender, RoutedEventArgs e)
             {
              // Download the file and save it to the static Dir.
-                DownloadFile("http://files.Spellborn.org/latest.zip", "C:/Games/tcosSetup");
+                DownloadFile("http://files.Spellborn.org/latest.zip", "C:/Windows/TEMP/tcosSetup");
             }
 
             private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -142,7 +167,7 @@ namespace TCoS_Reborn_Launcher
 
             private void Button_Click_3(object sender, RoutedEventArgs e)
             {
-                Launcher.LaunchWebsite("http://TCoS.nl");
+                Launcher.LaunchWebsite("http://Spellborn.nl");
             }
         }
     }
