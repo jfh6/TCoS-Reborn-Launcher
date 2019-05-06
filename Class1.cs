@@ -31,17 +31,18 @@ namespace TCoS_Reborn_Launcher
             string version = ConfigurationManager.AppSettings.Get("gameVersion");
             string location = ConfigurationManager.AppSettings.Get("installPath");
             // Check if we can access the Game directory and if the version is correct.
-            if (Directory.Exists(location + " / TheChroniclesofTCoS" + version + "/"))
+            if (Directory.Exists(location + "/TheChroniclesofSpellborn" + version + "/"))
             {
                 //Use Config file info to create the launch path and start the process.
-                Process.Start(location + "/TheChroniclesofTCoS" + version + "/bin/client/sb_client.exe");
+                Process.Start(location + "/TheChroniclesofSpellborn" + version + "/bin/client/sb_client.exe");
                 //Close Launcher after game launch
                 Environment.Exit(0);
             }
             else
             {
             // display error if install path can't be found.
-                MessageBox.Show("Error: Could not find Install location! Please Update your client to the latest Version.");
+                MessageBox.Show("Error: Could not find Install location! Please Update your client to the latest Version." +
+                    location + "/TheChroniclesofSpellborn" + version + "/bin/client/sb_client.exe");
                 return;
             }
         }
