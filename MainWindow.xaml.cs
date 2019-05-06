@@ -39,7 +39,7 @@ namespace TCoS_Reborn_Launcher
 
             private void Button_Click(object sender, RoutedEventArgs e)
             {
-                Launcher.LaunchWebsite("http://TCoS.org");
+                Launcher.LaunchWebsite("http://spellborn.org");
             }
 
             private void Play_Now_Button_Click_1(object sender, RoutedEventArgs e)
@@ -142,7 +142,7 @@ namespace TCoS_Reborn_Launcher
 
             private void Button_Click_3(object sender, RoutedEventArgs e)
             {
-                Launcher.LaunchWebsite("http://TCoS.nl");
+                Launcher.LaunchWebsite("http://spellborn.nl");
             }
         }
     }
