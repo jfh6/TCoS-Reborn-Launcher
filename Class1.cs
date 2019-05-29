@@ -170,8 +170,9 @@ namespace TCoS_Reborn_Launcher
             {
                 using (var stream = File.OpenRead(filename))
                 {
-                    string localChecksum = md5.ComputeHash(stream).ToString();
-                    return localChecksum;
+                    byte[] localChecksum = md5.ComputeHash(stream);
+                    string lChecksum = BitConverter.ToString(localChecksum).Replace("-", string.Empty).ToLower();
+                    return lChecksum;
                 }
             }
         }
@@ -181,8 +182,9 @@ namespace TCoS_Reborn_Launcher
                 {
                 using (var stream = File.OpenRead(filename))
                 {
-                string localChecksum = md5.ComputeHash(stream).ToString();
-                if ( localChecksum == GetChecksum())
+                byte[] localChecksum = md5.ComputeHash(stream);
+                string lChecksum = BitConverter.ToString(localChecksum).Replace("-", string.Empty).ToLower();
+                if ( lChecksum == GetChecksum())
                 {
                     return true;
                 }else
