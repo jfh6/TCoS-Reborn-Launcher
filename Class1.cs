@@ -19,7 +19,8 @@ using System.IO.Compression;
 using System.Configuration;
 using System.Collections.Specialized;
 using Microsoft.Win32;
-using Spellborn_Reborn_Luancher;
+using Newtonsoft.Json;
+using System.Security.Cryptography;
 
 namespace TCoS_Reborn_Launcher
 {
@@ -29,9 +30,10 @@ namespace TCoS_Reborn_Launcher
         public static void PlayGame()
         {
             //Function to Launch sb_client.exe
-            //Get info from Config file
-            string version = ConfigurationManager.AppSettings.Get("gameVersion");
-            string location = ConfigurationManager.AppSettings.Get("installPath");
+            //Get version from server
+            string version = Launcher.GetVersion();
+            //Get install path from registry
+            string location = Launcher.GetInstallPath();
             // Check if we can access the Game directory and if the version is correct.
             if (Directory.Exists(location + "/TheChroniclesofSpellborn" + version + "/"))
             {
@@ -60,16 +62,24 @@ namespace TCoS_Reborn_Launcher
         }
         public static void InstallGame(string installPath)
         {
-            //Push Intall location to Config file
+            string downloadPath = "C:/Windows/TEMP/tcosSetup";
+            //Push Intall location to registry
             updatePath(installPath);
+
+            if(CheckChecksum(downloadPath) == true){
+
             //Unzip download to Install location
-            ZipFile.ExtractToDirectory("C:/Windows/TEMP/tcosSetup", installPath);
+            ZipFile.ExtractToDirectory(downloadPath, installPath);
+
+            }else{
+                MessageBox.Show("Error: File Was corrupted durning download. Please try again!");
+            }                
         }
         public static void updatePath(string installPath)
         {
             try
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
                 {
                     if (key != null)
                     {
@@ -79,8 +89,11 @@ namespace TCoS_Reborn_Launcher
                     else
                     {
                         //Create the subkey if it doesn't exist
-                        Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher");
-                        key.SetValue("installPath", installPath);
+                        using (RegistryKey key2 = Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
+                        {
+                            key2.SetValue("installPath", installPath);
+                            MessageBox.Show(key2.ToString());
+                        }
                     }
                 }
             }
@@ -93,18 +106,23 @@ namespace TCoS_Reborn_Launcher
         {
             try
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
                 {
                     if (key != null)
                     {
                         //update value for game version
                         key.SetValue("version", version);
+                        MessageBox.Show(key.ToString());
                     }
                     else
                     {
                         //Create the subkey if it doesn't exist
-                        Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher");
-                        key.SetValue("version", version);
+                        using (RegistryKey key2 = Registry.LocalMachine.CreateSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
+                        {
+                            key2.SetValue("version", version);
+                            MessageBox.Show(key2.ToString());
+                        }
+                        
                     }
                 }
             }
@@ -115,27 +133,62 @@ namespace TCoS_Reborn_Launcher
         }
         public static string GetVersion()
         {
-            GameInfo g;
-            g = new GameInfo();
-            g.LoadInfo();
-            string version = g.version;
-            return version;
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("http://files.spellborn.org/latest.json");
+            StreamReader reader = new StreamReader(stream);
+            string str = reader.ReadToEnd();
+
+            var items = JsonConvert.DeserializeObject<dynamic>(str);
+
+            return items.version;
         }
         public static string GetFile()
         {
-            GameInfo g;
-            g = new GameInfo();
-            g.LoadInfo();
-            string File = g.file;
-            return File;
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("http://files.spellborn.org/latest.json");
+            StreamReader reader = new StreamReader(stream);
+            string str = reader.ReadToEnd();
+
+            var items = JsonConvert.DeserializeObject<dynamic>(str);
+
+            return items.file;
         }
         public static string GetChecksum()
         {
-            GameInfo g;
-            g = new GameInfo();
-            g.LoadInfo();
-            string Checksum = g.checksum;
-            return Checksum;
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("http://files.spellborn.org/latest.json");
+            StreamReader reader = new StreamReader(stream);
+            string str = reader.ReadToEnd();
+
+            var items = JsonConvert.DeserializeObject<dynamic>(str);
+
+            return items.checksum;
+        }
+        public static bool CheckChecksum(string filename)
+        {
+                using (var md5 = MD5.Create())
+                {
+                using (var stream = File.OpenRead(filename))
+                {
+                string localChecksum = md5.ComputeHash(stream).ToString();
+                if ( localChecksum == GetChecksum())
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+               }
+            }
+        }
+        public static string GetInstallPath()
+        {
+        using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
+            {
+            Object o = key.GetValue("installPath");
+            return o.ToString();                                                          
+            }
+
         }
     }
 }

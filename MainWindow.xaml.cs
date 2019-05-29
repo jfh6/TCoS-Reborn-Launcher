@@ -28,7 +28,7 @@ namespace TCoS_Reborn_Launcher
             {           
             try
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher"))
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
                 {
                     if (key != null)
                     {
@@ -54,7 +54,7 @@ namespace TCoS_Reborn_Launcher
                     }
                     else
                     {
-                        Launcher.updateVersion("1.0.0.0");
+                        Launcher.updateVersion("1.1.0.4");
 
                     }
                 }
@@ -162,7 +162,7 @@ namespace TCoS_Reborn_Launcher
             private void Button_Click_2(object sender, RoutedEventArgs e)
             {
              // Run update function with textbox input to update config file with install location
-                Launcher.updatePath(installPath.Text.ToString());
+                Launcher.updatePath(installPath.Text);
             }
 
             private void Button_Click_3(object sender, RoutedEventArgs e)
