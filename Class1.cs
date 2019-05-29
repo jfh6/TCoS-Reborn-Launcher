@@ -62,7 +62,7 @@ namespace TCoS_Reborn_Launcher
         }
         public static void InstallGame(string installPath)
         {
-            string downloadPath = "C:/Windows/TEMP/tcosSetup";
+            string downloadPath = "C:/Windows/TEMP/latest.zip";
             //Push Intall location to registry
             updatePath(installPath);
 
@@ -72,7 +72,7 @@ namespace TCoS_Reborn_Launcher
             ZipFile.ExtractToDirectory(downloadPath, installPath);
 
             }else{
-                MessageBox.Show("Error: File Was corrupted durning download. Please try again!");
+                MessageBox.Show("Error: File Was corrupted durning download. Please try again!" + "Server Checksum: " + GetChecksum() + " Client Checksum: " + getDownloadChecksum(downloadPath));
             }                
         }
         public static void updatePath(string installPath)
@@ -163,6 +163,17 @@ namespace TCoS_Reborn_Launcher
             var items = JsonConvert.DeserializeObject<dynamic>(str);
 
             return items.checksum;
+        }
+        public static string getDownloadChecksum(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    string localChecksum = md5.ComputeHash(stream).ToString();
+                    return localChecksum;
+                }
+            }
         }
         public static bool CheckChecksum(string filename)
         {

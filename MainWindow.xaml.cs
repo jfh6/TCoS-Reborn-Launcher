@@ -146,7 +146,7 @@ namespace TCoS_Reborn_Launcher
             private void Button_Click_1(object sender, RoutedEventArgs e)
             {
              // Download the file and save it to the static Dir.
-                DownloadFile("http://files.Spellborn.org/latest.zip", "C:/Windows/TEMP/tcosSetup");
+                DownloadFile("http://files.Spellborn.org/latest.zip", "C:/Windows/TEMP/latest.zip");
             }
 
             private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
