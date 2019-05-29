@@ -190,5 +190,14 @@ namespace TCoS_Reborn_Launcher
             }
 
         }
+        public static string RegGetVersion()
+        {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Spellborn Fan Hub\\Patcher", true))
+            {
+                Object o = key.GetValue("version");
+                return o.ToString();
+            }
+
+        }
     }
 }

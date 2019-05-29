@@ -10,22 +10,33 @@
         <ImageBrush ImageSource="Launcher.png"/>
     </Window.Background>
     <Canvas HorizontalAlignment="Left" Width="800" ClipToBounds="True" SnapsToDevicePixels="True" RenderTransformOrigin="0.37,0.619" Height="600" VerticalAlignment="Bottom" Background="{x:Null}">
-        <Image Height="271" Canvas.Left="236" Canvas.Top="180" Width="366" Source="cover.jpg" Stretch="UniformToFill" Opacity="0.1"/>
-        <Button x:Name="Play_Now_Button" Content="" Height="20" Canvas.Left="366" Canvas.Top="486" Width="257" Background="Black" FontFamily="Shonar Bangla" FontSize="22" Opacity="0" Click="Play_Now_Button_Click_1" BorderBrush="{x:Null}"/>
+        <Image Height="271" Canvas.Left="236" Canvas.Top="180" Width="366" Source="cover.jpg" Stretch="UniformToFill" Opacity="0.1" OpacityMask="#FF573711"/>
+        <Button x:Name="Play_Now_Button" Content="" Height="20" Canvas.Left="366" Canvas.Top="486" Width="257" Background="Black" FontFamily="Shonar Bangla" FontSize="36" Opacity="0" Click="Play_Now_Button_Click_1" BorderBrush="{x:Null}"/>
         <Button Content="" Height="80" Canvas.Left="236" Canvas.Top="468" Width="78" Background="Black" Click="Button_Click" FontFamily="Sitka Display" FontSize="14" FontStyle="Italic" Opacity="0">
             <Button.Effect>
                 <DropShadowEffect Color="#FFBC9169" BlurRadius="2" ShadowDepth="2"/>
             </Button.Effect>
         </Button>
         <Button x:Name="exit" Content="X" Height="26" Canvas.Top="121" Width="30" FontSize="20" FontFamily="Simplex" FontWeight="Bold" Background="{x:Null}" Click="Exit_Click" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="616" Foreground="#FFF70E03" RenderTransformOrigin="2.611,-2.075"/>
-        <Label Content="Install path:" Canvas.Left="426" Canvas.Top="448" Width="76" FontFamily="Shonar Bangla" Background="{x:Null}" Foreground="#FFD5D2C0" Height="33" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="installPath" Height="15" Canvas.Left="502" TextWrapping="Wrap" Canvas.Top="451" Width="100" Background="{x:Null}" TextChanged="TextBox_TextChanged" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Text="C:/Games/tcos"/>
-        <Label Content="Reborn Server" Canvas.Left="236" Canvas.Top="180" Width="185" FontFamily="Shonar Bangla" Background="{x:Null}" Foreground="#FFD5D2C0" Height="35" FontSize="24"/>
+        <TextBox x:Name="installPath" Height="18" Canvas.Left="314" TextWrapping="Wrap" Canvas.Top="451" Width="100" Background="#FFF7BA85" TextChanged="TextBox_TextChanged" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Text="C:/Games/tcos" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="2"/>
+            </TextBox.Effect>
+        </TextBox>
+        <Label Content="Reborn Server" Canvas.Left="236" Canvas.Top="180" Width="185" FontFamily="Shonar Bangla" Background="{x:Null}" Foreground="#FFF7BA85" Height="35" FontSize="24"/>
         <ProgressBar x:Name="downloadProgress" Height="10" Canvas.Left="329" Canvas.Top="471" Width="235" ValueChanged="ProgressBar_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <Button Content="Install" Canvas.Left="564" Canvas.Top="466" Width="50" FontFamily="Sitka Heading" Background="{x:Null}" Height="20" Click="Button_Click_1" BorderBrush="{x:Null}" Foreground="#FF21DE32"/>
+        <Button Content="Install" Canvas.Left="564" Canvas.Top="466" Width="50" FontFamily="Sitka Heading" Background="{x:Null}" Height="20" Click="Button_Click_1" BorderBrush="{x:Null}" Foreground="#FF21DE32" FontSize="14"/>
         <Label x:Name="lbl_downloadProgress" Content="" Canvas.Left="442" Canvas.Top="471" Width="22" Height="10"/>
         <TextBox x:Name="LdownloadProgress" Height="13" Canvas.Left="442" TextWrapping="Wrap" Canvas.Top="468" Width="25" Background="{x:Null}" TextChanged="TextBox_TextChanged" FontSize="9" BorderBrush="{x:Null}"/>
-        <Button x:Name="updateinstallpath" Content="Update Install Path" Canvas.Left="309" Canvas.Top="451" Width="112" FontFamily="Sitka Heading" Background="{x:Null}" Height="21" Click="Button_Click_2" BorderBrush="{x:Null}" Foreground="#FFE4A41A"/>
-        <Button Content="Register Account" Canvas.Left="296" Canvas.Top="210" Width="94" Height="20" Background="{x:Null}" Click="Button_Click_3" BorderBrush="{x:Null}" Foreground="#FF66C14C"/>
+        <Button x:Name="updateinstallpath" Content="Update Install Path" Canvas.Left="419" Canvas.Top="452" Width="100" FontFamily="Sitka Heading" Background="#FF573711" Height="16" Click="Button_Click_2" BorderBrush="{x:Null}" Foreground="#FFF7BA85">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Button Content="Register Account" Canvas.Left="296" Canvas.Top="210" Width="94" Height="20" Background="#FF573711" Click="Button_Click_3" BorderBrush="{x:Null}" Foreground="#FFF7BA85">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
     </Canvas>
 </Window>

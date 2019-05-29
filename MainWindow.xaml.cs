@@ -163,6 +163,7 @@ namespace TCoS_Reborn_Launcher
             {
              // Run update function with textbox input to update config file with install location
                 Launcher.updatePath(installPath.Text);
+            MessageBox.Show("Game Location registered to: " + Launcher.GetInstallPath());
             }
 
             private void Button_Click_3(object sender, RoutedEventArgs e)
